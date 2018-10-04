@@ -5,13 +5,13 @@ require "opensrs/version"
 
 Gem::Specification.new do |spec|
 
-  spec.name          = "opensrs"
-  spec.version       = OpenSRS::VERSION
+  spec.name          = "hetzner-opensrs"
+  spec.version       = "0.0.1"
   spec.authors       = [ "Joshua Delsman" ]
   spec.email         = [ "j@srv.im" ]
-  spec.summary       = "OpenSRS API for Ruby"
-  spec.description   = "Provides support to utilize the OpenSRS API with Ruby."
-  spec.homepage      = "https://github.com/voxxit/opensrs"
+  spec.summary       = "OpenSRS API for Ruby (Hetzner Fork)"
+  spec.description   = "Hetzner Fork of OpenSRS Gem while we wait for changes to be megred upstream"
+  spec.homepage      = "https://github.com/hetznerZA/opensrs/tree/hetzner-opensrs-fork"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
