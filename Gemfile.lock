@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    opensrs (0.3.8)
+    hetzner-opensrs (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -57,13 +57,13 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 4.2.2)
   bundler
+  hetzner-opensrs!
   libxml-ruby (~> 2)
   nokogiri (~> 1.8.1)
-  opensrs!
   pry
   rake
   rspec
   shoulda
 
 BUNDLED WITH
-   1.16.1
+   1.16.4

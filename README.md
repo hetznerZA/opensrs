@@ -1,4 +1,6 @@
-# OpenSRS
+# OpenSRS - NEVER MERGE THIS INTO MASTER
+
+**THIS BRANCH IS SOLELY FOR THE PURPOSES OF MAINTAINING THE hetzner-opensrs FORK**
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/voxxit/opensrs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
