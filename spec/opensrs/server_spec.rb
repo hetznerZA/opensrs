@@ -1,9 +1,11 @@
 describe OpenSRS::Server do
+  let(:key) { "secret123" }
+  let(:username) { "my_user" }
   before(:each) do
     OpenSRS::Server.xml_processor = :libxml
   end
 
-  let(:server) { OpenSRS::Server.new }
+  let(:server) { OpenSRS::Server.new username: username, key: key }
 
   describe '#new' do
     it 'allows timeouts to be set' do
@@ -35,7 +37,14 @@ describe OpenSRS::Server do
 
   describe ".call" do
     let(:response) { double(:body => 'some response') }
-    let(:header) { {"some" => "header" } }
+    let(:header) do
+      {
+        "Content-Length" => request_xml.length.to_s,
+        "Content-Type"   => "text/xml",
+        "X-Username"     => username,
+        "X-Signature"    => Digest::MD5.hexdigest(Digest::MD5.hexdigest(request_xml + key) + key)
+      }
+    end
     let(:wrapped_xml) do
       OpenSRS::SanitizableString.new(
         request_xml, "<sanitized xml></sanitized xml>"
@@ -48,7 +57,6 @@ describe OpenSRS::Server do
     let(:http) { double(Net::HTTP, :use_ssl= => true, :verify_mode= => true)  }
 
     before :each do
-      allow(server).to receive(:headers).and_return header
       allow(xml_processor).to receive(:build).and_return wrapped_xml
       allow(xml_processor).to receive(:parse).and_return response_xml
       allow(server).to receive(:xml_processor).and_return xml_processor
@@ -60,6 +68,14 @@ describe OpenSRS::Server do
       expect(xml_processor).to receive(:build).
         with(protocol: "XCP", some: "option")
       server.call(some: "option")
+    end
+
+    it "casts the xml to a string when posting" do
+      # Not using a string causes a problem with the VCR test framework
+      server.server = URI.parse "http://with-path.com/endpoint"
+      expect(http).to receive(:post).with("/endpoint", kind_of(String), anything()).
+        and_return double.as_null_object
+      server.call
     end
 
     it "posts to given path" do
@@ -150,7 +166,9 @@ describe OpenSRS::Server do
     end
 
     describe "xml sanitization has been enabled" do
-      let(:server) { OpenSRS::Server.new(sanitize_request: true) }
+      let(:server) do
+        OpenSRS::Server.new(sanitize_request: true, username: username, key: key)
+      end
 
       it "populates the returned request instance with sanitized xml" do
         result = server.call(some: "option")
