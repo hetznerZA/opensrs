@@ -6,7 +6,7 @@ require "opensrs/version"
 Gem::Specification.new do |spec|
 
   spec.name          = "hetzner-opensrs"
-  spec.version       = "0.0.1"
+  spec.version       = "0.0.2"
   spec.authors       = [ "Joshua Delsman" ]
   spec.email         = [ "j@srv.im" ]
   spec.summary       = "OpenSRS API for Ruby (Hetzner Fork)"
